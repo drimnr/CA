@@ -12,7 +12,6 @@ import org.firstinspires.ftc.teamcode.hardware.Commands.Lift;
 import org.firstinspires.ftc.teamcode.hardware.Commands.Outtake;
 
 @TeleOp
-@Disabled
 public class Lifttt extends LinearOpMode {
     Lift lift;
     String mode = "MANUAL";
