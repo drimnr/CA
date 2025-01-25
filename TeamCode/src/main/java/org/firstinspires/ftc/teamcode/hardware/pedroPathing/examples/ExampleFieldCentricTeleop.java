@@ -24,8 +24,8 @@ import org.firstinspires.ftc.teamcode.hardware.pedroPathing.constants.LConstants
 public class ExampleFieldCentricTeleop extends OpMode {
     private Follower follower;
     private final Pose startPose = new Pose(0,0,0);
-    public static double p = 0.0, i = 0.0, d = 0.0
-            , preset_heading = 0, targetHeading = 0;
+    public static double p = 1.2, i = 0.0000, d = 0.1
+            , preset_heading = 180.00, targetHeading = 0;
     PIDController pid;
     /** This method is call once when init is played, it initializes the follower **/
     @Override
@@ -51,24 +51,20 @@ public class ExampleFieldCentricTeleop extends OpMode {
     @Override
     public void loop() {
 
-        boolean rightStickActive = Math.abs(gamepad1.right_stick_x) > 0.03;
+        boolean rightStickActive = Math.abs(gamepad1.right_stick_x) > 0.01;
         double heading = follower.getPose().getHeading();
-        if (heading > Math.PI) {
-            heading -= 2*Math.PI;
-        }
-            if (rightStickActive) {
-                targetHeading = Math.toDegrees(heading);
-            }
-
-            if (gamepad1.b) {
-                targetHeading = preset_heading;
-            }
-            targetHeading = Math.toRadians(targetHeading);
+        double rx = -gamepad1.right_stick_x;
+        if (gamepad1.b) {
+            targetHeading = Math.toRadians(preset_heading);
             pid.setPID(p, i, d);
-            double headingCorrection = pid.calculate(targetHeading, heading);
-            double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
-            double x = -gamepad1.left_stick_x;
-            double rx = rightStickActive ? -gamepad1.right_stick_x : headingCorrection;
+            double headingCorrection = pid.calculate(heading, targetHeading);
+            rx = headingCorrection;
+        }
+
+
+        double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
+        double x = -gamepad1.left_stick_x;
+
         /* Update Pedro to move the robot based on:
         - Forward/Backward Movement: -gamepad1.left_stick_y
         - Left/Right Movement: -gamepad1.left_stick_x
