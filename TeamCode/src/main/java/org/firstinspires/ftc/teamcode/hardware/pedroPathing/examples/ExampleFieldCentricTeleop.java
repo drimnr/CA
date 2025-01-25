@@ -1,10 +1,13 @@
 package org.firstinspires.ftc.teamcode.hardware.pedroPathing.examples;
 
+import com.acmerobotics.dashboard.config.Config;
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
 import com.pedropathing.util.Constants;
 import  com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.hardware.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.hardware.pedroPathing.constants.LConstants;
@@ -17,13 +20,17 @@ import org.firstinspires.ftc.teamcode.hardware.pedroPathing.constants.LConstants
  */
 
 @TeleOp(name = "Example Field-Centric Teleop", group = "Examples")
+@Config
 public class ExampleFieldCentricTeleop extends OpMode {
     private Follower follower;
     private final Pose startPose = new Pose(0,0,0);
-
+    public static double p = 0.0, i = 0.0, d = 0.0
+            , preset_heading = 0, targetHeading = 0;
+    PIDController pid;
     /** This method is call once when init is played, it initializes the follower **/
     @Override
     public void init() {
+        pid = new PIDController(p, i, d);
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
         follower.setStartingPose(startPose);
@@ -44,6 +51,24 @@ public class ExampleFieldCentricTeleop extends OpMode {
     @Override
     public void loop() {
 
+        boolean rightStickActive = Math.abs(gamepad1.right_stick_x) > 0.03;
+        double heading = follower.getPose().getHeading();
+        if (heading > Math.PI) {
+            heading -= 2*Math.PI;
+        }
+            if (rightStickActive) {
+                targetHeading = Math.toDegrees(heading);
+            }
+
+            if (gamepad1.b) {
+                targetHeading = preset_heading;
+            }
+            targetHeading = Math.toRadians(targetHeading);
+            pid.setPID(p, i, d);
+            double headingCorrection = pid.calculate(targetHeading, heading);
+            double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
+            double x = -gamepad1.left_stick_x;
+            double rx = rightStickActive ? -gamepad1.right_stick_x : headingCorrection;
         /* Update Pedro to move the robot based on:
         - Forward/Backward Movement: -gamepad1.left_stick_y
         - Left/Right Movement: -gamepad1.left_stick_x
@@ -51,13 +76,13 @@ public class ExampleFieldCentricTeleop extends OpMode {
         - Robot-Centric Mode: false
         */
 
-        follower.setTeleOpMovementVectors(-gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x, false);
+        follower.setTeleOpMovementVectors(y, x, rx, false);
         follower.update();
 
         /* Telemetry Outputs of our Follower */
         telemetry.addData("X", follower.getPose().getX());
         telemetry.addData("Y", follower.getPose().getY());
-        telemetry.addData("Heading in Degrees", Math.toDegrees(follower.getPose().getHeading()));
+        telemetry.addData("Heading in Degrees", heading);
 
         /* Update Telemetry to the Driver Hub */
         telemetry.update();

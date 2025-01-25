@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.hardware.Commands;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -43,6 +44,7 @@ public class MecanumBase {
             rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             baseInitialized = true;
             telemetry.addData("base", "Initialized");
+            pid = new PIDController(p, i, d);
         } catch (IllegalArgumentException iae){
             telemetry.addData("base", iae.getMessage());
         }
@@ -110,5 +112,51 @@ public class MecanumBase {
         rightFrontDrive.setPower(rightFrontPower);
         leftBackDrive.setPower(leftBackPower);
         rightBackDrive.setPower(rightBackPower);
+    }
+    public static double p = 0.0, i = 0.0, d = 0.0
+            , preset_heading = 0, targetHeading = 0;
+    PIDController pid;
+    public boolean field_centric(Gamepad gamepad1, double heading, boolean mode) {
+        boolean rightStickActive = Math.abs(gamepad1.right_stick_x) > 0.03;
+
+        if (rightStickActive) {
+            targetHeading = heading / Math.PI * 180.00;
+            mode = false;
+        }
+
+        if (mode) {
+            targetHeading = preset_heading;
+        }
+        targetHeading = Math.toRadians(targetHeading);
+        pid.setPID(p, i, d);
+        pid.calculate(targetHeading, heading);
+        double headingCorrection = pid.calculate(targetHeading, heading);
+        double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
+        double x = gamepad1.left_stick_x;
+        double rx = rightStickActive ? gamepad1.right_stick_x : headingCorrection;
+
+        double botHeading = heading / Math.PI * 180.00;
+
+        // Rotate the movement direction counter to the bot's rotation
+        double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
+        double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
+
+        //rotX = rotX * 1.1;  // Counteract imperfect strafing
+
+        // Denominator is the largest motor power (absolute value) or 1
+        // This ensures all the powers maintain the same ratio,
+        // but only if at least one is out of the range [-1, 1]
+        double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
+        double leftFrontPower = (rotY + rotX + rx) / denominator;
+        double leftBackPower = (rotY - rotX + rx) / denominator;
+        double rightFrontPower = (rotY - rotX - rx) / denominator;
+        double rightBackPower = (rotY + rotX - rx) / denominator;
+
+        leftFrontDrive.setPower(leftFrontPower);
+        rightFrontDrive.setPower(rightFrontPower);
+        leftBackDrive.setPower(leftBackPower);
+        rightBackDrive.setPower(rightBackPower);
+        telemetry.addData("h", botHeading);
+        return mode;
     }
 }
