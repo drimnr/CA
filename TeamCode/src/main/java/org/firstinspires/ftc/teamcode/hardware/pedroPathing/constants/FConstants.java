@@ -12,7 +12,7 @@ public class FConstants {
         FollowerConstants.localizers = Localizers.PINPOINT;
 
         // We can change the value of any variable/constant of FollowerConstants.
-        FollowerConstants.mass = 13; // In kg
+        FollowerConstants.mass = 12.8; // In kg
 
         FollowerConstants.leftFrontMotorName = "lfd";
         FollowerConstants.leftRearMotorName = "lbd";
@@ -23,5 +23,6 @@ public class FConstants {
         FollowerConstants.leftRearMotorDirection = DcMotorSimple.Direction.REVERSE;
         FollowerConstants.rightFrontMotorDirection = DcMotorSimple.Direction.FORWARD;
         FollowerConstants.rightRearMotorDirection = DcMotorSimple.Direction.FORWARD;
+
     }
 }

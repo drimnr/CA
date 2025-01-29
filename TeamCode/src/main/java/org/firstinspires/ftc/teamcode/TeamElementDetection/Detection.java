@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.TeamElementDetection.Pipeline.OwnPipeline;
+import org.opencv.core.Scalar;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -28,12 +29,12 @@ public class Detection {
 
         camera.setPipeline(ownPipeline);
         camera.openCameraDevice();
-        camera.startStreaming(640, 480, OpenCvCameraRotation.UPRIGHT);
+        camera.startStreaming(640, 360, OpenCvCameraRotation.UPRIGHT);
 
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
-                camera.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT);
+                camera.startStreaming(640, 360, OpenCvCameraRotation.UPRIGHT);
             }
 
             @Override
@@ -64,5 +65,42 @@ public class Detection {
         this.xDist = xDist;
         this.yDist = yDist;
         this.heading = heading;
+    }
+    public static Scalar lowerYellow = new Scalar(10, 150, 180);
+    public static Scalar upperYellow = new Scalar(30, 255, 255);
+    public static Scalar lowerSecondary = new Scalar(90, 50, 50);  // Начальный цвет - синий
+    public static Scalar upperSecondary = new Scalar(130, 255, 255);
+
+
+    public void setSecondaryColor(String color) {
+        switch (color.toLowerCase()) {
+            case "blue":
+                lowerSecondary = new Scalar(90, 50, 50);
+                upperSecondary = new Scalar(130, 255, 255);
+                break;
+            case "red":
+                lowerSecondary = new Scalar(0, 150, 150);
+                upperSecondary = new Scalar(10, 255, 255);
+                break;
+            default:
+                System.out.println("Invalid color selected.");
+                break;
+        }
+    }
+
+    public Scalar getLowerYellow() {
+        return lowerYellow;
+    }
+
+    public Scalar getUpperYellow() {
+        return upperYellow;
+    }
+
+    public Scalar getLowerSecondary() {
+        return lowerSecondary;
+    }
+
+    public Scalar getUpperSecondary() {
+        return upperSecondary;
     }
 }

@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.hardware.Commands.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.TeamElementDetection.Detection;
 import org.firstinspires.ftc.teamcode.hardware.Commands.MecanumBase;
 @Config
-@TeleOp(name="SDU_TeleOP", group="Iterative")
+@TeleOp(name="Auto_Navigation", group="Iterative")
 public class AutoNavigation extends OpMode
 {
     PIDController pid;

@@ -24,9 +24,9 @@ public class Outtake {
             mayatl_up = 0.81,
             mayatl_down = 0.00,
             mayatl_mid = 0.45,
-            open = 0.33,
-            close = 0,
-            pered_take = 0,
+            open = 0.0,
+            close = 0.38,
+            pered_take = 0.1,
             zad_take = 0.39,
             spec = 0.43,
             hb = 0.65;

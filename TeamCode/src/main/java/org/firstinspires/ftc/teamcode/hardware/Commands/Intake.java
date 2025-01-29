@@ -17,8 +17,8 @@ public class Intake {
     private boolean intakeInitialized = false;
 
     public static double
-            open = 0.3,
-            close = 0;
+            open = 0.25,
+            close = 0.6;
 
     public Intake(HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = telemetry;
@@ -49,7 +49,7 @@ public class Intake {
         }
     }
 
-    public static double openchut = 0.03;
+    public static double openchut = 0.55;
 
     public void open_chut() {
         if (intakeInitialized) {
@@ -63,10 +63,14 @@ public class Intake {
         }
     }
 
-    public static double mid = 0.24;
-    public static double left = 0.03;
-    public static double right = 0.45;
-
+    public static double mid = 0.5;
+    public static double left = 0.8;
+    public static double right = 0.25;
+    public void rotate_auto(double angle) {
+        if (intakeInitialized) {
+            rotate.setPosition(mid - angle/300);
+        }
+    }
     public void rotate_mid() {
         if (intakeInitialized) {
             rotate.setPosition(mid);
@@ -85,10 +89,10 @@ public class Intake {
         }
     }
 
-    public static double arm_up = 0;
-    public static double arm_mid = 0.42;
-    public static double arm_down = 0.5;
-    public static double wrist_down = 0.02, wrist_pered = 0.78, wrist_mid = 0.25;
+    public static double arm_up = 0.5;
+    public static double arm_mid = 0.15;
+    public static double arm_down = 0.1;
+    public static double wrist_down = 0.8, wrist_pered = 0.0, wrist_mid = 0.5;
 
     public void setmid_take() {
         arm.setPosition(arm_mid);
@@ -110,6 +114,7 @@ public class Intake {
         arm.setPosition(arm_up);
         wrist.setPosition(wrist_pered);
     }
+
     public static double auto_rotate = 0.08;
     public void auto_rotate() {
         rotate.setPosition(auto_rotate);
