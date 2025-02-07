@@ -65,7 +65,7 @@ public class Outtake {
     public void release() {
         outtake.setPosition(open);
     }
-    public static double mayat_spec = 0.32, arm_spec = 0.23;
+    public static double mayat_spec = 0.28, arm_spec = 0.31;
     public void mayat_specimen() {
         mayatr.setPosition(mayat_spec);
         mayatl.setPosition(arm_spec);

@@ -1,12 +1,10 @@
 package org.firstinspires.ftc.teamcode.hardware.pedroPathing.constants;
 
-import com.pedropathing.localization.Localizers;
 import com.pedropathing.follower.FollowerConstants;
-import com.pedropathing.util.CustomFilteredPIDFCoefficients;
-import com.pedropathing.util.CustomPIDFCoefficients;
+import com.pedropathing.localization.Localizers;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-public class FConstants {
+public class FConstants2 {
     static {
         // Select our localizer
         FollowerConstants.localizers = Localizers.PINPOINT;
@@ -34,9 +32,9 @@ public class FConstants {
 
         FollowerConstants.headingPIDFCoefficients.setCoefficients(1,0.0003,0.1,0);
 
-        FollowerConstants.zeroPowerAccelerationMultiplier = 0.8;
+        FollowerConstants.zeroPowerAccelerationMultiplier = 1;
 
-        FollowerConstants.drivePIDFCoefficients.setCoefficients(0.013,-0.0008,0.00003,0.6,0);
+        FollowerConstants.drivePIDFCoefficients.setCoefficients(0.013,-0.000,0.0003,0.6,0);
         FollowerConstants.pathEndTimeoutConstraint = 50;
     }
 }

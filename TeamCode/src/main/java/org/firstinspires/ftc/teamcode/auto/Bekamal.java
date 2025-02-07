@@ -19,13 +19,12 @@ import org.firstinspires.ftc.teamcode.hardware.Commands.Horizontal_Lift;
 import org.firstinspires.ftc.teamcode.hardware.Commands.Intake;
 import org.firstinspires.ftc.teamcode.hardware.Commands.Lift;
 import org.firstinspires.ftc.teamcode.hardware.Commands.Outtake;
-import org.firstinspires.ftc.teamcode.hardware.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.hardware.pedroPathing.constants.FConstants2;
 import org.firstinspires.ftc.teamcode.hardware.pedroPathing.constants.LConstants;
 
 
 @Autonomous(name = "Auto test", group = "auto")
-public class Auto_test_ktl extends OpMode {
+public class Bekamal extends OpMode {
     Intake intake;
     Horizontal_Lift horlift;
     private Follower follower;
@@ -41,27 +40,27 @@ public class Auto_test_ktl extends OpMode {
     private Pose controlPose = new Pose(-7,-17, 0);
     private Pose P1 = new Pose(53 , -35.3, 0);
     private Pose controlPose1 = new Pose(53, -55, 0);
-    private Pose hp1 = new Pose(25, -38.6, 0);
+    private Pose hp1 = new Pose(20, -38.6, 0);
     private Pose controlPose2 = new Pose(53,-34.2, 0);
     private Pose P2 = new Pose(53, -49.5, 0);
-    private Pose hp2 = new Pose(25, -49.3, 0);
+    private Pose hp2 = new Pose(20, -49.3, 0);
     private Pose controlPose3 = new Pose(48.8, -44.3, 0);
     private Pose P3 = new Pose(53,-57, 0);
-    private Pose hp3 = new Pose(25, -55.8, 0);
-    private Pose take2 = new Pose(1, -30, 0);
-    private Pose take3 = new Pose(3.5, -30, 0);
-    private Pose take4 = new Pose(3.5, -30, 0);
-    private Pose take5 = new Pose(3.5, -30, 0);
-    private Pose score2 = new Pose(33.8, 4, 0);
-    private Pose score3 = new Pose(33.8, 5, 0);
-    private Pose score4 = new Pose(33.8, 6, 0);
-    private Pose score5 = new Pose(33.8, 7, 0);
+    private Pose hp3 = new Pose(19, -55.8, 0);
+    private Pose take2 = new Pose(2.1, -30, 0);
+    private Pose take3 = new Pose(2.1, -30, 0);
+    private Pose take4 = new Pose(2.1, -30, 0);
+    private Pose take5 = new Pose(2.1, -30, 0);
+    private Pose score2 = new Pose(35, 4, 0);
+    private Pose score3 = new Pose(35, 5, 0);
+    private Pose score4 = new Pose(35, 6, 0);
+    private Pose score5 = new Pose(35, 7, 0);
     private Pose park = new Pose(2.7, -30, 0);
 
 
 
     private Path scorePreload, parking;
-    private PathChain pick1, pick2, pick3, scoring2, scoring3, scoring4, scoring5, taking2, taking3, taking4, taking5;
+    private PathChain pick1, pick2, pick3, scoring2, scoring21, scoring3, scoring4, scoring5, taking2, taking21, taking3, taking4, taking5;
     private  PathChain pickingall;
     public void buildPaths() {
 
@@ -71,7 +70,7 @@ public class Auto_test_ktl extends OpMode {
         pickingall = follower.pathBuilder()
                 .addPath(new BezierCurve(new Point(scorePose), new Point(controlPose), new Point(P1)))
                 .setLinearHeadingInterpolation(scorePose.getHeading(), P1.getHeading())
-                .addPath(new BezierCurve(new Point(P1.getX(), hp1.getY()), new Point(hp1)))
+                .addPath(new BezierCurve(new Point(P1), new Point(controlPose1), new Point(hp1)))
                 .setLinearHeadingInterpolation(P1.getHeading(), hp1.getHeading())
 
 
@@ -113,35 +112,43 @@ public class Auto_test_ktl extends OpMode {
 
         /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         taking2 = follower.pathBuilder()
-                .addPath(new BezierCurve(new Point(hp3),new Point(take2.getX()+15, take2.getY()-3), new Point(take2)))
+                .addPath(new BezierCurve(new Point(hp3),new Point(take2.getX()+21, take2.getY()), new Point(take2)))
+                .setLinearHeadingInterpolation(hp3.getHeading(), take2.getHeading())
+                .build();
+        taking21 = follower.pathBuilder()
+                .addPath(new BezierCurve(new Point(hp3),new Point(take2.getX()+15, take2.getY()), new Point(take2)))
                 .setLinearHeadingInterpolation(hp3.getHeading(), take2.getHeading())
                 .build();
         taking3 = follower.pathBuilder()
-                .addPath(new BezierCurve(new Point(score2),new Point(take3.getX()+15, take3.getY()-3), new Point(take3)))
+                .addPath(new BezierCurve(new Point(score2),new Point(take3.getX()+15, take3.getY()), new Point(take3)))
                 .setLinearHeadingInterpolation(hp3.getHeading(), take2.getHeading())
                 .build();
         taking4 = follower.pathBuilder()
-                .addPath(new BezierCurve(new Point(score3),new Point(take4.getX()+15, take4.getY()-3), new Point(take4)))
+                .addPath(new BezierCurve(new Point(score3),new Point(take4.getX()+15, take4.getY()), new Point(take4)))
                 .setLinearHeadingInterpolation(hp3.getHeading(), take2.getHeading())
                 .build();
         taking5 = follower.pathBuilder()
-                .addPath(new BezierCurve(new Point(score4),new Point(take5.getX()+15, take5.getY()-3), new Point(take5)))
+                .addPath(new BezierCurve(new Point(score4),new Point(take5.getX()+15, take5.getY()), new Point(take5)))
                 .setLinearHeadingInterpolation(hp3.getHeading(), take2.getHeading())
                 .build();
         scoring2 = follower.pathBuilder()
-                .addPath(new BezierCurve(new Point(take2),new Point(score2.getX()-15, score2.getY()+5), new Point(score2)))
+                .addPath(new BezierCurve(new Point(take2),new Point(score2.getX()-18, score2.getY()), new Point(score2)))
+                .setLinearHeadingInterpolation(hp3.getHeading(), take2.getHeading())
+                .build();
+        scoring21 = follower.pathBuilder()
+                .addPath(new BezierCurve(new Point(take2),new Point(score2.getX()-15, score2.getY()), new Point(score2)))
                 .setLinearHeadingInterpolation(hp3.getHeading(), take2.getHeading())
                 .build();
         scoring3 = follower.pathBuilder()
-                .addPath(new BezierCurve(new Point(take3),new Point(score3.getX()-15, score3.getY()+5), new Point(score3)))
+                .addPath(new BezierCurve(new Point(take3),new Point(score3.getX()-15, score3.getY()), new Point(score3)))
                 .setLinearHeadingInterpolation(hp3.getHeading(), take2.getHeading())
                 .build();
         scoring4 = follower.pathBuilder()
-                .addPath(new BezierCurve(new Point(take4),new Point(score4.getX()-15, score4.getY()+5), new Point(score4)))
+                .addPath(new BezierCurve(new Point(take4),new Point(score4.getX()-15, score4.getY()), new Point(score4)))
                 .setLinearHeadingInterpolation(hp3.getHeading(), take2.getHeading())
                 .build();
         scoring5 = follower.pathBuilder()
-                .addPath(new BezierCurve(new Point(take5),new Point(score5.getX()-15, score5.getY()+5), new Point(score5)))
+                .addPath(new BezierCurve(new Point(take5),new Point(score5.getX()-15, score5.getY()), new Point(score5)))
                 .setLinearHeadingInterpolation(hp3.getHeading(), take2.getHeading())
                 .build();
 
@@ -152,23 +159,15 @@ public class Auto_test_ktl extends OpMode {
     public void autonomousPathUpdate() {
         switch (pathState) {
             case 0:
-                follower.followPath(scorePreload);
+                follower.followPath(scorePreload, true);
                 setPathState(1);
-                lift.set_to_high_chamber();
-                outtake.setspecimen();
                 break;
             case 1:
                 //Бека осы жерге мән бер
                 if (!follower.isBusy()) {
-                    lift.setpower(0.8);
-                    sleep(250);
-                    outtake.release();
-                    sleep(100);
-                    lift.hold_position();
-                    lift.set_target_position(0);
-                    outtake.setZad_take();
 
-                    follower.followPath(pickingall);
+                    sleep(500);
+                    follower.followPath(pickingall, true);
                     setPathState(5);
                     break;
                 }
@@ -176,7 +175,7 @@ public class Auto_test_ktl extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup1Pose's position */
                 if (!follower.isBusy()) {
                     /* Score Preload */
-                    sleep(250);
+                    sleep(500);
                     follower.followPath(pick2, true);
                     setPathState(3);
                 }
@@ -187,71 +186,61 @@ public class Auto_test_ktl extends OpMode {
             case 3:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if (!follower.isBusy()) {
-                    follower.setMaxPower(1.0);
-                    sleep(250);
+                    sleep(500);
                     follower.followPath(pick3, true);
                     setPathState(4);
+                    follower.setMaxPower(0.8);
                 }
                 break;
             case 4:
 
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup2Pose's position */
                 if (!follower.isBusy()) {
-                    follower.setMaxPower(0.6);
-                    sleep(250);
-                    outtake.release();
-                    follower.followPath(taking2);
-                    outtake.setZad_take();
-                    setPathState(5);
+                    sleep(500);
+                    follower.followPath(taking2, true);
+                    setPathState(13);
+                    follower.setMaxPower(0.1);
                 }
                 break;
-            case 5:
-                if(follower.getPose().getX() <= 3.3 && follower.getPose().getY() > -34) {
-                    sleep(40);
-                    outtake.grab();
-                    sleep(100);
+            case 13:
+                if (!follower.isBusy()) {
+                    sleep(500);
+                    follower.followPath(taking21, true);
+                    setPathState(5);
                 }
+            case 5:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if (!follower.isBusy()) {
-                    follower.setMaxPower(1);
-                    sleep(200);
-                    outtake.setspecimen();
-                    lift.set_to_high_chamber();
-                    follower.followPath(scoring2);
+                    sleep(500);
+                    follower.followPath(scoring2, true);
+                    setPathState(14);
+                    follower.setMaxPower(0.1);
+                }
+                break;
+            case 14:
+                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
+                if (!follower.isBusy()) {
+                    sleep(500);
+                    follower.followPath(scoring21, true);
                     setPathState(6);
                 }
                 break;
             case 6:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup2Pose's position */
                 if (!follower.isBusy()) {
-                    lift.setpower(0.8);
-                    sleep(250);
-                    outtake.release();
-                    sleep(100);
-                    lift.hold_position();
-                    lift.set_target_position(0);
-                    outtake.setZad_take();
-                    outtake.release();
-                    follower.setMaxPower(1.0);
-                    sleep(250);
-                    follower.followPath(taking3);
+                    follower.setMaxPower(0.6);
+                    sleep(500);
+                    follower.followPath(taking3, true);
                     setPathState(7);
 
                 }
                 break;
             case 7:
-                if(follower.getPose().getX() <= 3.3 && follower.getPose().getY() > -34) {
-                    sleep(40);
-                    outtake.grab();
-                    sleep(100);
-                }
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if (!follower.isBusy()) {
-                    follower.setMaxPower(1);
-                    sleep(200);
-                    outtake.setspecimen();
-                    lift.set_to_high_chamber();
-                    follower.followPath(scoring3);
+                    follower.setMaxPower(0.7);
+                    sleep(500);
+                    follower.followPath(scoring3, true);
                     setPathState(8);
 
                 }
@@ -259,34 +248,19 @@ public class Auto_test_ktl extends OpMode {
             case 8:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup2Pose's position */
                 if (!follower.isBusy()) {
-                    lift.setpower(0.8);
-                    sleep(250);
-                    outtake.release();
-                    sleep(100);
-                    lift.hold_position();
-                    lift.set_target_position(0);
-                    outtake.setZad_take();
-                    outtake.release();
-                    follower.setMaxPower(1.0);
-                    sleep(250);
-                    follower.followPath(taking4);
+                    follower.setMaxPower(0.6);
+                    sleep(500);
+                    follower.followPath(taking4, true);
                     setPathState(9);
 
                 }
                 break;
             case 9:
-                if(follower.getPose().getX() <= 3.3 && follower.getPose().getY() > -34) {
-                    sleep(40);
-                    outtake.grab();
-                    sleep(100);
-                }
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if (!follower.isBusy()) {
-                    follower.setMaxPower(1);
-                    sleep(200);
-                    outtake.setspecimen();
-                    lift.set_to_high_chamber();
-                    follower.followPath(scoring4);
+                    follower.setMaxPower(0.7);
+                    sleep(500);
+                    follower.followPath(scoring4, true);
                     setPathState(10);
 
                 }
@@ -294,52 +268,32 @@ public class Auto_test_ktl extends OpMode {
             case 10:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup2Pose's position */
                 if (!follower.isBusy()) {
-                    lift.setpower(0.8);
-                    sleep(250);
-                    outtake.release();
-                    sleep(100);
-                    lift.hold_position();
-                    lift.set_target_position(0);
-                    outtake.setZad_take();
-                    follower.setMaxPower(1.0);
-                    outtake.release();
-                    sleep(250);
-                    follower.followPath(taking5);
+                    follower.setMaxPower(0.6);
+                    sleep(500);
+                    follower.followPath(taking5, true);
                     setPathState(11);
 
                 }
                 break;
             case 11:
-                if(follower.getPose().getX() <= 3.3 && follower.getPose().getY() > -33) {
-                    sleep(40);
-                    outtake.grab();
-                    sleep(100);
-                }
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if (!follower.isBusy()) {
-                    follower.setMaxPower(1);
-                    sleep(200);
-                    outtake.setspecimen();
-                    lift.set_to_high_chamber();
-                    follower.followPath(scoring5);
+                    follower.setMaxPower(0.7);
+                    sleep(500);
+                    follower.followPath(scoring5, true);
                     setPathState(12);
                 }
                 break;
             case 12:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if (!follower.isBusy()) {
-                    lift.setpower(0.8);
-                    sleep(250);
-                    outtake.release();
-                    sleep(100);
-                    lift.set_target_position(0);
-                    outtake.setZad_take();
-                    outtake.release();
-                    sleep(250);
-                    follower.followPath(parking);
+                    sleep(500);
+                    follower.followPath(parking, true);
+                    stop();
                     setPathState(-1);
                 }
                 break;
+
         }
 
     }
@@ -374,9 +328,8 @@ public class Auto_test_ktl extends OpMode {
         horlift = new Horizontal_Lift(hardwareMap, telemetry);
         outtake = new Outtake(hardwareMap, telemetry);
         telemetryA = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        intake.setperedacha();
+        //intake.vision();
         horlift.close();
-        outtake.grab();
         pathTimer = new Timer();
         opmodeTimer = new Timer();
         opmodeTimer.resetTimer();
@@ -404,6 +357,7 @@ public class Auto_test_ktl extends OpMode {
         ElapsedTime timersleep = new ElapsedTime();
         timersleep.reset();
         while(timersleep.milliseconds() <= mil) {
+            lift.update_pid();
             follower.update();
         }
     }
