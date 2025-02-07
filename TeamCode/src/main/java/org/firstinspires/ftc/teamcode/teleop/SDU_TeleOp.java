@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -11,7 +12,7 @@ import org.firstinspires.ftc.teamcode.hardware.Commands.MecanumBase;
 import org.firstinspires.ftc.teamcode.hardware.Commands.Outtake;
 
 @TeleOp(name="Sdu linear teleop", group="Linear")
-
+@Disabled
 public class SDU_TeleOp extends LinearOpMode {
     ElapsedTime timer = new ElapsedTime();
     ElapsedTime timerbt = new ElapsedTime();

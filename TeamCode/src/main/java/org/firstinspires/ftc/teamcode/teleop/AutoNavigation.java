@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.teleop;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.controller.PIDController;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.teamcode.TeamElementDetection.Detection;
 import org.firstinspires.ftc.teamcode.hardware.Commands.MecanumBase;
 @Config
 @TeleOp(name="Auto_Navigation", group="Iterative")
+@Disabled
 public class AutoNavigation extends OpMode
 {
     PIDController pid;

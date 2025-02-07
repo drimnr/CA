@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.TeamElementDetection.Pipeline;
 
+import com.acmerobotics.dashboard.config.Config;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.opencv.core.Core;
@@ -14,13 +16,13 @@ import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.TeamElementDetection.Detection;
-
+@Config
 public class OwnPipeline extends OpenCvPipeline {
     private Telemetry telemetry;
     private Detection detection;
-    private static final double MIN_CONTOUR_AREA = 30000.0 / 4;
-    private static final double MAX_CONTOUR_AREA = 110000.0 / 4;
-    private static final double MAX_RECTANGLE_AREA = 20000.0;
+    public static double MIN_CONTOUR_AREA = 30000.0 / 4;
+    public static double MAX_CONTOUR_AREA = 110000.0 / 4;
+    public static double MAX_RECTANGLE_AREA = 30000.0;
 
     private Point cameraCenter = new Point(320, 180);
     private boolean detected = false;
@@ -46,10 +48,11 @@ public class OwnPipeline extends OpenCvPipeline {
         nearestCenter = new Point();
         nearestAngle = 0;
         minDistance = Double.MAX_VALUE;
-
-        Mat maskYellow = new Mat();
-        Core.inRange(hsv, detection.getLowerYellow(), detection.getUpperYellow(), maskYellow);
-        processContours(maskYellow, darker);
+        if(detection.getuseYellow()) {
+            Mat maskYellow = new Mat();
+            Core.inRange(hsv, detection.getLowerYellow(), detection.getUpperYellow(), maskYellow);
+            processContours(maskYellow, darker);
+        }
 
         Mat maskSecondary = new Mat();
         Core.inRange(hsv, detection.getLowerSecondary(), detection.getUpperSecondary(), maskSecondary);

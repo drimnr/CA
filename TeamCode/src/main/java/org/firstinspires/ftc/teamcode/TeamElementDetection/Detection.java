@@ -71,8 +71,11 @@ public class Detection {
     public static Scalar lowerSecondary = new Scalar(90, 50, 50);  // Начальный цвет - синий
     public static Scalar upperSecondary = new Scalar(130, 255, 255);
 
-
-    public void setSecondaryColor(String color) {
+    public static Boolean yellow = true;
+    public static String col;
+    public void setSecondaryColor(String color, Boolean useyellow) {
+        col = color;
+        yellow = useyellow;
         switch (color.toLowerCase()) {
             case "blue":
                 lowerSecondary = new Scalar(90, 50, 50);
@@ -87,7 +90,12 @@ public class Detection {
                 break;
         }
     }
-
+    public Boolean getuseYellow() {
+        return yellow;
+    }
+    public String getcolor() {
+        return col;
+    }
     public Scalar getLowerYellow() {
         return lowerYellow;
     }

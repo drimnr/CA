@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 @Config
 @TeleOp
+@Disabled
 public class Servo_test extends LinearOpMode {
     Servo s;
     public static double pos = 0.5;

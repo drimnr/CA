@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.test;
 import com.acmerobotics.dashboard.config.Config;
 import com.pedropathing.localization.PoseUpdater;
 import com.pedropathing.util.Constants;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.teamcode.hardware.pedroPathing.constants.LConstants
 
 @Config
 @TeleOp
+@Disabled
 public class Field_Centric_test extends LinearOpMode {
     @Override
     public void runOpMode() {

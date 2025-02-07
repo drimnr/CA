@@ -13,11 +13,11 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class Lift {
     HardwareMap hardwareMap;
     Telemetry telemetry;
-    public static int high_chamber = 550, high_basket = 2080;
+    public static int high_chamber = 350, high_basket = 2080;
     DcMotor lift_l, lift_r;
     public static double kp = 0.013, kd = 0.1, ki = 0.0001, kf = 0.00002;
     PIDFController pidfController;
-    public static double down_power = 0.6, holdp = -0.1;
+    public static double down_power = 0.6, holdp = 0.1;
     private boolean liftInitialized = false;
     public static int target_position = 0, current_position = 0;
     public static String mode = "PID";
@@ -108,8 +108,7 @@ public class Lift {
             }
             else {
                 if (Math.abs(lift_l.getCurrentPosition()) >= 10) {
-                    lift_l.setPower(0.07);
-                    lift_r.setPower(0.07);
+                    hold_position();
                 }
                 else {
                     lift_l.setPower(0);
@@ -147,8 +146,7 @@ public class Lift {
         }
     }
     public void hold_position() {
-            lift_l.setPower(0.08);
-            lift_r.setPower(0.08);
+        setpower(holdp);
     }
 
 }

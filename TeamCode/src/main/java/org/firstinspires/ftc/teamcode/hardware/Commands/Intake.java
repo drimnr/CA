@@ -18,7 +18,7 @@ public class Intake {
 
     public static double
             open = 0.25,
-            close = 0.6;
+            close = 0.67;
 
     public Intake(HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = telemetry;
@@ -49,7 +49,7 @@ public class Intake {
         }
     }
 
-    public static double openchut = 0.55;
+    public static double openchut = 0.57;
 
     public void open_chut() {
         if (intakeInitialized) {
@@ -90,7 +90,7 @@ public class Intake {
     }
 
     public static double arm_up = 0.5;
-    public static double arm_mid = 0.15;
+    public static double arm_mid = 0.2;
     public static double arm_down = 0.1;
     public static double wrist_down = 0.8, wrist_pered = 0.0, wrist_mid = 0.5;
 
@@ -118,5 +118,10 @@ public class Intake {
     public static double auto_rotate = 0.08;
     public void auto_rotate() {
         rotate.setPosition(auto_rotate);
+    }
+    public static double arm_vision = 0.3, wrist_vision = 0.12;
+    public void vision() {
+        arm.setPosition(arm_vision);
+        wrist.setPosition(wrist_vision);
     }
 }

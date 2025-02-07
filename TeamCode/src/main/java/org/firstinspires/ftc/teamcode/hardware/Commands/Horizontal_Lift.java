@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.hardware.Commands;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -17,8 +16,8 @@ public class Horizontal_Lift {
     Servo l, r;
     private boolean horliftInitialized = false;
 
-    public static double open = 0.31;
-    public static double close = 0;
+    public static double open = 0.6;
+    public static double close = 0.28;
 
     public Horizontal_Lift(HardwareMap hardwareMap, Telemetry telemetry){
         this.telemetry = telemetry;

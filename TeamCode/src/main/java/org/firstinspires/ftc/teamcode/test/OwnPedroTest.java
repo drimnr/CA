@@ -1,9 +1,10 @@
-package org.firstinspires.ftc.teamcode.hardware.pedroPathing.examples;
+package org.firstinspires.ftc.teamcode.test;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
+import com.pedropathing.pathgen.BezierCurve;
 import com.pedropathing.pathgen.BezierLine;
 import com.pedropathing.pathgen.PathChain;
 import com.pedropathing.pathgen.Point;
@@ -13,7 +14,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-
 import org.firstinspires.ftc.teamcode.hardware.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.hardware.pedroPathing.constants.LConstants;
 
@@ -26,16 +26,13 @@ import org.firstinspires.ftc.teamcode.hardware.pedroPathing.constants.LConstants
  * @author Samarth Mahapatra - 1002 CircuitRunners Robotics Surge
  * @version 1.0, 12/30/2024
  */
-@Autonomous(name = "Triangle", group = "Examples")
-@Disabled
-public class Triangle extends OpMode {
+@Autonomous
+public class OwnPedroTest extends OpMode {
     private Follower follower;
 
-    private final Pose startPose = new Pose(0,0, Math.toRadians(0));
-    private final Pose interPose = new Pose(24, -24, Math.toRadians(90));
-    private final Pose endPose = new Pose(24, 24, Math.toRadians(45));
+    private final Pose startPose = new Pose(24-72,24-72, Math.toRadians(0));
 
-    private PathChain triangle;
+    private PathChain rect;
 
     private Telemetry telemetryA;
 
@@ -48,7 +45,7 @@ public class Triangle extends OpMode {
         follower.update();
 
         if (follower.atParametricEnd()) {
-            follower.followPath(triangle, true);
+            follower.followPath(rect, true);
         }
 
         follower.telemetryDebug(telemetryA);
@@ -64,16 +61,42 @@ public class Triangle extends OpMode {
         follower = new Follower(hardwareMap);
         follower.setStartingPose(startPose);
 
-        triangle = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(startPose), new Point(interPose)))
-                .setLinearHeadingInterpolation(startPose.getHeading(), interPose.getHeading())
-                .addPath(new BezierLine(new Point(interPose), new Point(endPose)))
-                .setLinearHeadingInterpolation(interPose.getHeading(), endPose.getHeading())
-                .addPath(new BezierLine(new Point(endPose), new Point(startPose)))
-                .setLinearHeadingInterpolation(endPose.getHeading(), startPose.getHeading())
+        rect = follower.pathBuilder()
+                .addPath(
+                        // Line 1
+                        new BezierLine(
+                                new Point(24.000-72, 24.000-72, Point.CARTESIAN),
+                                new Point(24.000-72, 120.000-72, Point.CARTESIAN)
+                        )
+                )
+                .setTangentHeadingInterpolation()
+                .addPath(
+                        // Line 2
+                        new BezierLine(
+                                new Point(24.000-72, 120.000-72, Point.CARTESIAN),
+                                new Point(120.000-72, 120.000-72, Point.CARTESIAN)
+                        )
+                )
+                .setTangentHeadingInterpolation()
+                .addPath(
+                        // Line 3
+                        new BezierLine(
+                                new Point(120.000-72, 120.000-72, Point.CARTESIAN),
+                                new Point(120.000-72, 24.000-72, Point.CARTESIAN)
+                        )
+                )
+                .setTangentHeadingInterpolation()
+                .addPath(
+                        // Line 4
+                        new BezierLine(
+                                new Point(120.000-72, 24.000-72, Point.CARTESIAN),
+                                new Point(24.000-72, 24.000-72, Point.CARTESIAN)
+                        )
+                )
+                .setTangentHeadingInterpolation()
                 .build();
 
-        follower.followPath(triangle);
+        follower.followPath(rect);
 
         telemetryA = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
         telemetryA.addLine("This will run in a roughly triangular shape,"

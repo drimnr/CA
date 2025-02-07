@@ -3,6 +3,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.PoseUpdater;
 import com.pedropathing.util.Constants;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -13,6 +14,7 @@ import org.firstinspires.ftc.teamcode.hardware.pedroPathing.constants.LConstants
 
 @Config
 @TeleOp
+@Disabled
 public class Gamepad_test extends LinearOpMode {
     @Override
     public void runOpMode() {

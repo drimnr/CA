@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
+import com.pedropathing.localization.PoseUpdater;
+import com.pedropathing.util.Constants;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -9,9 +11,11 @@ import org.firstinspires.ftc.teamcode.hardware.Commands.Intake;
 import org.firstinspires.ftc.teamcode.hardware.Commands.Lift;
 import org.firstinspires.ftc.teamcode.hardware.Commands.MecanumBase;
 import org.firstinspires.ftc.teamcode.hardware.Commands.Outtake;
+import org.firstinspires.ftc.teamcode.hardware.pedroPathing.constants.FConstants;
+import org.firstinspires.ftc.teamcode.hardware.pedroPathing.constants.LConstants;
 
 @TeleOp(name="TeleOP", group="Iterative")
-public class SDUOpmode extends OpMode
+public class TeleOP extends OpMode
 {
     ElapsedTime timer = new ElapsedTime();
     ElapsedTime timerbt = new ElapsedTime();
@@ -24,9 +28,13 @@ public class SDUOpmode extends OpMode
     MecanumBase mecanumBase;
     String mode = "MANUAL";
     boolean outtaketake = false, take = false, peredtake = false, borttake = false;
-
+    PoseUpdater poseUpdater;
+    boolean modedrive = false;
     @Override
     public void init() {
+        Constants.setConstants(FConstants.class, LConstants.class);
+        poseUpdater = new PoseUpdater(hardwareMap);
+        modedrive = false;
         lift = new Lift(hardwareMap, telemetry);
         outtake = new Outtake(hardwareMap, telemetry);
         intake = new Intake(hardwareMap, telemetry);
@@ -119,6 +127,7 @@ public class SDUOpmode extends OpMode
         //outtake
         if (gamepad2.dpad_up) {
             outtaketake = true;
+            outtake.mayat_up1();
             outtake.grab();
             timer.reset();
         }
@@ -141,6 +150,9 @@ public class SDUOpmode extends OpMode
             outtake.mayat_up();
             outtake.setspecimen();
             borttake = false;
+        }
+        if(gamepad2.options) {
+            outtake.setautospec();
         }
 
         if (gamepad2.y || gamepad1.left_bumper) {
@@ -169,13 +181,26 @@ public class SDUOpmode extends OpMode
 
 
         //drivetrain
-
-        robot_centric();
+        if(gamepad1.b) modedrive = true;
+        poseUpdater.update();
+        modedrive = mecanumBase.robot_centric_with_mode(gamepad1, poseUpdater.getPose().getHeading(), modedrive);
 
         //lift
         if (mode == "PID") {
             if (gamepad2.right_stick_y != 0) {
                 mode = "MANUAL";
+            }
+            if (Math.abs(gamepad2.left_trigger) > 0.3) {
+                mode = "PID";
+                lift.set_target_position(0);
+            }
+            if (Math.abs(gamepad2.right_trigger) > 0.3) {
+                mode = "PID";
+                lift.set_to_high_basket();
+            }
+            if (gamepad2.dpad_right) {
+                mode = "PID";
+                lift.set_to_high_chamber();
             }
             lift.update_pid();
         }
@@ -202,7 +227,4 @@ public class SDUOpmode extends OpMode
     }
 
 
-    public void robot_centric() {
-        mecanumBase.move(gamepad1);
-    }
 }

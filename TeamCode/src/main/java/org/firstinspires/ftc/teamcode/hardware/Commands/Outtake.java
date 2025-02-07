@@ -18,16 +18,17 @@ public class Outtake {
     private boolean outtakeInitialized = false;
 
     public static double
-            mayatr_up = 0.15,
-            mayatr_down = 0.95,
-            mayatr_mid = 0.5,
+            mayatr_up = 0.25,
+            mayatr_up1 = 0.15,
+            mayatr_down = 1,
+            mayatr_mid = 0.56,
             mayatl_up = 0.81,
             mayatl_down = 0.00,
             mayatl_mid = 0.45,
             open = 0.0,
             close = 0.38,
             pered_take = 0.1,
-            zad_take = 0.39,
+            zad_take = 0.35,
             spec = 0.43,
             hb = 0.65;
 
@@ -64,10 +65,27 @@ public class Outtake {
     public void release() {
         outtake.setPosition(open);
     }
-
+    public static double mayat_spec = 0.32, arm_spec = 0.23;
+    public void mayat_specimen() {
+        mayatr.setPosition(mayat_spec);
+        mayatl.setPosition(arm_spec);
+    }
     public void mayat_up() {
         mayatr.setPosition(mayatr_up);
         mayatl.setPosition(mayatl_up);
+    }
+    public static double mayat_auto_spec = 0.64, arm_auto_spec = 0.43;
+    public void setautospec() {
+        outtake_arm.setPosition(arm_auto_spec);
+        mayatr.setPosition(mayat_auto_spec);
+        grab();
+    }
+    public static double open_chut = 0.33;
+    public void open_chut() {
+        outtake.setPosition(open_chut);
+    }
+    public void mayat_up1() {
+        mayatr.setPosition(mayatr_up1);
     }
     public void mayat_mid() {
         mayatr.setPosition(mayatr_mid);
@@ -94,7 +112,7 @@ public class Outtake {
     }
     public void setspecimen() {
         outtake_arm.setPosition(spec);
-        mayat_up();
+        mayat_specimen();
     }
 
 }
