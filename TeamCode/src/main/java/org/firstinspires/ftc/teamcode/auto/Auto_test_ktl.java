@@ -37,7 +37,7 @@ public class Auto_test_ktl extends OpMode {
     private  Pose startPose = new Pose(0, 0, Math.toRadians(0));
 
     MultipleTelemetry telemetryA;
-    private  Pose scorePose = new Pose(35, 1.3, Math.toRadians(0));
+    private  Pose scorePose = new Pose(33, 1.3, Math.toRadians(0));
     private Pose controlPose = new Pose(-7,-17, 0);
     private Pose P1 = new Pose(53 , -35.3, 0);
     private Pose controlPose1 = new Pose(53, -55, 0);
@@ -48,14 +48,14 @@ public class Auto_test_ktl extends OpMode {
     private Pose controlPose3 = new Pose(48.8, -44.3, 0);
     private Pose P3 = new Pose(53,-57, 0);
     private Pose hp3 = new Pose(25, -55.8, 0);
-    private Pose take2 = new Pose(1, -30, 0);
-    private Pose take3 = new Pose(3.5, -30, 0);
-    private Pose take4 = new Pose(3.5, -30, 0);
-    private Pose take5 = new Pose(3.5, -30, 0);
-    private Pose score2 = new Pose(33.8, 4, 0);
-    private Pose score3 = new Pose(33.8, 5, 0);
-    private Pose score4 = new Pose(33.8, 6, 0);
-    private Pose score5 = new Pose(33.8, 7, 0);
+    private Pose take2 = new Pose(1, -33, 0);
+    private Pose take3 = new Pose(4, -33, 0);
+    private Pose take4 = new Pose(4, -33, 0);
+    private Pose take5 = new Pose(4, -33, 0);
+    private Pose score2 = new Pose(32, 4, 0);
+    private Pose score3 = new Pose(32, 5, 0);
+    private Pose score4 = new Pose(32, 6, 0);
+    private Pose score5 = new Pose(32, 7, 0);
     private Pose park = new Pose(2.7, -30, 0);
 
 
@@ -206,8 +206,8 @@ public class Auto_test_ktl extends OpMode {
                 }
                 break;
             case 5:
-                if(follower.getPose().getX() <= 3.3 && follower.getPose().getY() > -34) {
-                    sleep(40);
+                if(follower.getPose().getX() <= 3.3 && follower.getPose().getY() > -37) {
+
                     outtake.grab();
                     sleep(100);
                 }
@@ -240,8 +240,8 @@ public class Auto_test_ktl extends OpMode {
                 }
                 break;
             case 7:
-                if(follower.getPose().getX() <= 3.3 && follower.getPose().getY() > -34) {
-                    sleep(40);
+                if(follower.getPose().getX() <= 3.3 && follower.getPose().getY() > -37) {
+
                     outtake.grab();
                     sleep(100);
                 }
@@ -275,8 +275,8 @@ public class Auto_test_ktl extends OpMode {
                 }
                 break;
             case 9:
-                if(follower.getPose().getX() <= 3.3 && follower.getPose().getY() > -34) {
-                    sleep(40);
+                if(follower.getPose().getX() <= 3.3 && follower.getPose().getY() > -37) {
+
                     outtake.grab();
                     sleep(100);
                 }
@@ -310,8 +310,8 @@ public class Auto_test_ktl extends OpMode {
                 }
                 break;
             case 11:
-                if(follower.getPose().getX() <= 3.3 && follower.getPose().getY() > -33) {
-                    sleep(40);
+                if(follower.getPose().getX() <= 3.3 && follower.getPose().getY() > -37) {
+
                     outtake.grab();
                     sleep(100);
                 }
