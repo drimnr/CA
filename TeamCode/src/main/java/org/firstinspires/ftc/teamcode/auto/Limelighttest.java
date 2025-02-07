@@ -14,20 +14,20 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.WebCamera.Detection;
 import org.firstinspires.ftc.teamcode.hardware.Commands.Horizontal_Lift;
 import org.firstinspires.ftc.teamcode.hardware.Commands.Intake;
 import org.firstinspires.ftc.teamcode.hardware.Commands.Lift;
+import org.firstinspires.ftc.teamcode.hardware.Commands.Limelight;
 import org.firstinspires.ftc.teamcode.hardware.Commands.Outtake;
 import org.firstinspires.ftc.teamcode.hardware.pedroPathing.constants.FConstants2;
 import org.firstinspires.ftc.teamcode.hardware.pedroPathing.constants.LConstants;
 
 @Config
-@Autonomous(name = "Camera auto test", group = "auto")
-public class Camera extends OpMode {
+@Autonomous(name = "Limelight auto test", group = "auto")
+public class Limelighttest extends OpMode {
     Intake intake;
     Horizontal_Lift horlift;
-    Detection detection;
+    Limelight limelight1;
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
 
@@ -52,15 +52,16 @@ public class Camera extends OpMode {
     public static double adder = 1, pixelstoinches = 0.018;
     @Override
     public void loop() {
+        limelight1.update_camera();
         horlift.open();
         intake.vision();
         // These loop the movements of the robot
         follower.update();
         Pose cur = follower.getPose();
         Pose target = getsamplepose(cur);
-        if(detection.detected) {
+        if(limelight1.isDetected()) {
             sleep(200);
-            intake.rotate_auto(detection.getheading());
+            intake.rotate_auto(limelight1.get_angle());
             double distance = Math.sqrt(Math.pow(target.getX()-cur.getX(), 2) + Math.pow(target.getY()-cur.getY(), 2));
                 PathChain pathChain = follower.pathBuilder()
                         .addPath(new BezierCurve(new Point(cur), new Point(target)))
@@ -104,7 +105,9 @@ public class Camera extends OpMode {
         intake = new Intake(hardwareMap, telemetry);
         horlift = new Horizontal_Lift(hardwareMap, telemetry);
         outtake = new Outtake(hardwareMap, telemetry);
-        detection = new Detection(hardwareMap, telemetry);
+        limelight1 = new Limelight(hardwareMap, telemetry);
+        limelight1.switch_pipeline(3);
+
         telemetryA = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         intake.vision();
         horlift.open();
@@ -126,13 +129,14 @@ public class Camera extends OpMode {
     public void start() {
         opmodeTimer.resetTimer();
         setPathState(0);
+        limelight1.start_camera();
     }
 
     @Override
     public void stop() {
     }
     public Pose getsamplepose(Pose cur) {
-        return new Pose(cur.getX()-detection.getXDist() * pixelstoinches, cur.getY()+detection.getYDist() * pixelstoinches+adder, Math.toRadians(270));
+        return new Pose(cur.getX()- limelight1.get_x_d(), cur.getY()+ limelight1.get_y_d()+adder, Math.toRadians(270));
     }
     public void sleep(int mil) {
         ElapsedTime timersleep = new ElapsedTime();

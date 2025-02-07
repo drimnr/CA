@@ -85,8 +85,6 @@ public class Teleop2 extends OpMode
             timer1.reset();
             intake.setsample_take();
             intake.open();
-        }
-        if (take && timer1.milliseconds() > 50) {
             intake.close();
         }
         if (take && timer1.milliseconds() > 200) {
@@ -102,11 +100,11 @@ public class Teleop2 extends OpMode
             peredtake = true;
             intake.open_chut();
         }
-        if(peredtake && timerpd.milliseconds() > 200){
+        if(peredtake && timerpd.milliseconds() > 100){
             intake.rotate_mid();
             intake.setperedacha();
         }
-        if(peredtake && timerpd.milliseconds() > 500){
+        if(peredtake && timerpd.milliseconds() > 200){
             intake.close();
             peredtake = false;
         }
@@ -148,16 +146,28 @@ public class Teleop2 extends OpMode
             outtake.grab();
         }
         if (borttake && timerbt.milliseconds() > 180) {
-            outtake.mayat_up();
-            outtake.setspecimen();
+            outtake.setautospec();
             borttake = false;
         }
         if(gamepad2.options) {
-            outtake.setautospec();
+            outtake.setspecimen();
+        }
+        if(gamepad2.share) {
+            intake.vision();
         }
 
         if (gamepad2.y || gamepad1.left_bumper) {
             outtake.release();
+            intake.open();
+        }
+        if (gamepad2.left_stick_y < -0.3) {
+            horlift.open();
+        }
+        if (gamepad2.left_stick_y > 0.3) {
+            horlift.close();
+        }
+        if(gamepad2.touchpad) {
+            intake.setauto();
         }
 
 

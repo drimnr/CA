@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.hardware.Commands.GoBildaPinpointDriver;
-import org.firstinspires.ftc.teamcode.TeamElementDetection.Detection;
+import org.firstinspires.ftc.teamcode.WebCamera.Detection;
 import org.firstinspires.ftc.teamcode.hardware.Commands.MecanumBase;
 @Config
 @TeleOp(name="Auto_Navigation", group="Iterative")

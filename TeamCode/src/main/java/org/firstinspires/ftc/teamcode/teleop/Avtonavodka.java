@@ -6,12 +6,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.TeamElementDetection.Detection;
+import org.firstinspires.ftc.teamcode.WebCamera.Detection;
 import org.firstinspires.ftc.teamcode.hardware.Commands.Horizontal_Lift;
 import org.firstinspires.ftc.teamcode.hardware.Commands.Intake;
-import org.firstinspires.ftc.teamcode.hardware.Commands.Lift;
-import org.firstinspires.ftc.teamcode.hardware.Commands.MecanumBase;
-import org.firstinspires.ftc.teamcode.hardware.Commands.Outtake;
 
 @TeleOp
 @Disabled

@@ -5,16 +5,12 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
-import com.pedropathing.pathgen.BezierCurve;
-import com.pedropathing.pathgen.PathChain;
-import com.pedropathing.pathgen.Point;
 import com.pedropathing.util.Constants;
-import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.TeamElementDetection.Detection;
+import org.firstinspires.ftc.teamcode.WebCamera.Detection;
 import org.firstinspires.ftc.teamcode.hardware.Commands.Horizontal_Lift;
 import org.firstinspires.ftc.teamcode.hardware.Commands.Intake;
 import org.firstinspires.ftc.teamcode.hardware.Commands.Lift;

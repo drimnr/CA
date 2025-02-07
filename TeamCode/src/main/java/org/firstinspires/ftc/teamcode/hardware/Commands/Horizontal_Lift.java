@@ -16,8 +16,8 @@ public class Horizontal_Lift {
     Servo l, r;
     private boolean horliftInitialized = false;
 
-    public static double open = 0.6;
-    public static double close = 0.3;
+    public static double open = 0.63;
+    public static double close = 0.37;
 
     public Horizontal_Lift(HardwareMap hardwareMap, Telemetry telemetry){
         this.telemetry = telemetry;

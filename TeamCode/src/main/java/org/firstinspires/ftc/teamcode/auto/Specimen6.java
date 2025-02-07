@@ -18,13 +18,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.hardware.Commands.Horizontal_Lift;
 import org.firstinspires.ftc.teamcode.hardware.Commands.Intake;
 import org.firstinspires.ftc.teamcode.hardware.Commands.Lift;
+import org.firstinspires.ftc.teamcode.hardware.Commands.Limelight;
 import org.firstinspires.ftc.teamcode.hardware.Commands.Outtake;
 import org.firstinspires.ftc.teamcode.hardware.pedroPathing.constants.FConstants2;
 import org.firstinspires.ftc.teamcode.hardware.pedroPathing.constants.LConstants;
 
 
-@Autonomous(name = "5+0", group = "auto")
-public class Specimen extends OpMode {
+@Autonomous(name = "6+0", group = "auto")
+public class Specimen6 extends OpMode {
     Intake intake;
     Horizontal_Lift horlift;
     private Follower follower;
@@ -36,76 +37,65 @@ public class Specimen extends OpMode {
     private  Pose startPose = new Pose(0, 0, Math.toRadians(0));
 
     MultipleTelemetry telemetryA;
-    private  Pose scorePose = new Pose(32.5, 1.3, Math.toRadians(0));
+    private  Pose scorePose = new Pose(29.5, 1.6, Math.toRadians(0));
     private Pose controlPose = new Pose(-4,-17, 0);
-    private Pose P1 = new Pose(46, -35.3, 0);
-    private Pose controlPose1 = new Pose(53, -55, 0);
-    private Pose hp1 = new Pose(20, -38.6, 0);
-    private Pose controlPose2 = new Pose(53,-34.2, 0);
-    private Pose P2 = new Pose(48, -47.5, 0);
-    private Pose hp2 = new Pose(20, -47.3, 0);
-    private Pose controlPose3 = new Pose(48.8, -44.3, 0);
-    private Pose P3 = new Pose(48,-53.7, 0);
-    private Pose hp3 = new Pose(20, -53.6, 0);
+    private Pose P1 = new Pose(11.6, -41, 0);
+    private Pose P2 = new Pose(11.6, -51, 0);
+    private Pose P3 = new Pose(37.8,-34.8, Math.toRadians(270));
+    private Pose hp3 = new Pose(11.6, -34, 0);
     private Pose take2 = new Pose(1, -33, 0);
     private Pose take3 = new Pose(0, -33, 0);
     private Pose take4 = new Pose(0, -33, 0);
     private Pose take5 = new Pose(0, -33, 0);
+    private Pose take6 = new Pose(0, -33, 0);
     private Pose score2 = new Pose(32.5, 5, 0);
     private Pose score3 = new Pose(32.5, 7, 0);
     private Pose score4 = new Pose(32.5, 10.5, 0);
     private Pose score5 = new Pose(32.5, 12, 0);
+    private Pose score6 = new Pose(32.5, 12, 0);
     private Pose park = new Pose(2.7, -30, 0);
 
-
+    private Pose pick_center = new Pose(2.7, -30, 0);
 
     private Path scorePreload;
-    private PathChain parking, pick1, pick2, pick3, scoring2, scoring3, scoring4, scoring5, taking2, taking3, taking4, taking5;
+    private PathChain parking, pick1, pick2, pick3, pick32, scoring2, scoring3, scoring4, scoring5, taking2, taking3, taking4, taking5;
     private  PathChain pickingall;
     public void buildPaths() {
 
         scorePreload = new Path(new BezierLine(new Point(startPose), new Point(scorePose)));
         scorePreload.setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading());
 
-        pickingall = follower.pathBuilder()
-                .addPath(new BezierCurve(new Point(scorePose), new Point(controlPose), new Point(P1)))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), P1.getHeading())
-                .setPathEndTimeoutConstraint(0)
-                .addPath(new BezierCurve(new Point(P1.getX(), hp1.getY()), new Point(hp1)))
-                .setLinearHeadingInterpolation(P1.getHeading(), hp1.getHeading())
-                .setPathEndTimeoutConstraint(0)
-                .addPath(new BezierCurve(new Point(hp1), new Point(controlPose2), new Point(P2)))
-                .setLinearHeadingInterpolation(hp2.getHeading(), P2.getHeading())
-                .setPathEndTimeoutConstraint(0)
-                .addPath(new BezierCurve(new Point(P2), new Point(hp2)))
-                .setLinearHeadingInterpolation(P1.getHeading(), hp1.getHeading())
-                .setPathEndTimeoutConstraint(0)
-                .addPath(new BezierCurve(new Point(hp2), new Point(controlPose3), new Point(P3)))
-                .setLinearHeadingInterpolation(hp2.getHeading(), P3.getHeading())
-                .setPathEndTimeoutConstraint(0)
+        pick1 = follower.pathBuilder()
+                .addPath(new BezierCurve(new Point(pick_center), new Point(P1)))
+                .setLinearHeadingInterpolation(pick_center.getHeading(), P1.getHeading())
+                .build();
+        pick2 = follower.pathBuilder()
+                .addPath(new BezierCurve(new Point(P1), new Point(P2)))
+                .setLinearHeadingInterpolation(P1.getHeading(), P2.getHeading())
+                .build();
+        pick3 = follower.pathBuilder()
+                .addPath(new BezierCurve(new Point(P2), new Point(P3)))
+                .setLinearHeadingInterpolation(P2.getHeading(), P3.getHeading())
+                .build();
+        pick32 = follower.pathBuilder()
                 .addPath(new BezierCurve(new Point(P3), new Point(hp3)))
-                .setLinearHeadingInterpolation(P1.getHeading(), hp1.getHeading())
-                .setPathEndTimeoutConstraint(0)
-                .addPath(new BezierLine(new Point(hp3), new Point(take2)))
-                .setLinearHeadingInterpolation(hp3.getHeading(), take2.getHeading())
+                .setLinearHeadingInterpolation(P3.getHeading(), hp3.getHeading())
                 .build();
 
-
-        /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         taking2 = follower.pathBuilder()
-                .addPath(new BezierCurve(new Point(hp3),new Point(take2.getX()+15, take2.getY()-3), new Point(take2.getX(), take2.getY())))
+                .addPath(new BezierCurve(new Point(hp3), new Point(hp3.getX()+5, hp3.getY()), new Point(take2.getX() + 1.0, take2.getY())))
                 .setLinearHeadingInterpolation(hp3.getHeading(), take2.getHeading())
                 .build();
         taking3 = follower.pathBuilder()
-                .addPath(new BezierCurve(new Point(score2), new Point(score2.getX()-10, score2.getY()),new Point(take3.getX()+15, take3.getY()-3), new Point(take3.getX() + 1.5, take3.getY())))
+                .addPath(new BezierCurve(new Point(score2),new Point(take3.getX()+15, take3.getY()-3), new Point(take3.getX() + 1.5, take3.getY())))
                 .setLinearHeadingInterpolation(hp3.getHeading(), take2.getHeading())
                 .build();
         taking4 = follower.pathBuilder()
-                .addPath(new BezierCurve(new Point(score3), new Point(score2.getX()-10, score2.getY()),new Point(take4.getX()+15, take4.getY()-3), new Point(take4.getX() + 1.5, take4.getY())))
+                .addPath(new BezierCurve(new Point(score3),new Point(take4.getX()+15, take4.getY()-3), new Point(take4.getX() + 1.5, take4.getY())))
                 .setLinearHeadingInterpolation(hp3.getHeading(), take2.getHeading())
                 .build();
         taking5 = follower.pathBuilder()
-                .addPath(new BezierCurve(new Point(score4), new Point(score2.getX()-10, score2.getY()),new Point(take5.getX()+15, take5.getY()-3), new Point(take5.getX() + 1.5, take5.getY())))
+                .addPath(new BezierCurve(new Point(score4),new Point(take5.getX()+15, take5.getY()-3), new Point(take5.getX() + 1.5, take5.getY())))
                 .setLinearHeadingInterpolation(hp3.getHeading(), take2.getHeading())
                 .build();
         scoring2 = follower.pathBuilder()
@@ -136,33 +126,133 @@ public class Specimen extends OpMode {
     public void autonomousPathUpdate() {
         switch (pathState) {
             case 0:
+
                 follower.followPath(scorePreload);
                 setPathState(1);
                 lift.set_target_position(100);
                 //intake.vision();
-                intake.setauto();
                 outtake.setautospec();
+                intake.setmidpovishe_take();
                 break;
             case 1:
-                //Бека осы жерге мән бер
                 if (!follower.isBusy()) {
                     follower.holdPoint(scorePose);
                     sleep(100);
                     lift.setpower(0.8);
                     sleep(250);
+                    horlift.open();
                     outtake.release();
                     sleep(100);
                     lift.hold_position();
                     lift.set_target_position(0);
-                    outtake.setZad_take();
+                    outtake.setPered_take();
 
-                    follower.followPath(pickingall);
-                    setPathState(5);
+
+                    intake.vision();
+                    intake.open();
+                    Pose tarpose = pick_center;
+                    follower.holdPoint(tarpose);
+                    ElapsedTime timer = new ElapsedTime();
+                    timer.reset();
+                    sleep(500);
+                    while(!limelight.isDetected()) {
+                        if(timer.milliseconds() > 2000) break;
+                        PathChain pathChain = follower.pathBuilder()
+                                .addPath(new BezierCurve(new Point(follower.getPose()), new Point(follower.getPose().getX(), follower.getPose().getY()+2)))
+                                .setConstantHeadingInterpolation(Math.toRadians(0))
+                                .build();
+                        follower.setMaxPower(0.8);
+                        follower.followPath(pathChain, true);
+                        sleep(500);
+                    }
+                    Pose cur = follower.getPose();
+
+                    follower.holdPoint(cur);
+                    sleep(200);
+                    Pose target = getsamplepose(follower.getPose());
+                    intake.rotate_auto(limelight.get_angle());
+                    double distance = Math.sqrt(Math.pow(target.getX()-cur.getX(), 2) + Math.pow(target.getY()-cur.getY(), 2));
+                    PathChain pathChain = follower.pathBuilder()
+                            .addPath(new BezierCurve(new Point(follower.getPose()), new Point(target)))
+                            .setConstantHeadingInterpolation(Math.toRadians(0))
+                            .build();
+
+                    follower.setMaxPower(0.7);
+                    follower.followPath(pathChain, true);
+                    sleep(300);
+                    intake.open();
+                    follower.holdPoint(target);
+                    //follower.holdPoint(new Pose(target.getX(), target.getY(), Math.toRadians(-90.0)));
+                    intake.setsample_take();
+                    sleep(300);
+
+                    intake.close();
+                    sleep(100);
+                    follower.setMaxPower(1.0);
+
+                    horlift.close();
+                    peredacha();
+                    outtake.sethb();
+                    follower.followPath(pick1);
+                    setPathState(2);
                     break;
+                }
+            case 2:
+                if (!follower.isBusy()) {
+                    follower.holdPoint(P1);
+                    horlift.open();
+                    intake.setmidpovishe_take();
+                    sleep(700);
+                    taking();
+                    horlift.close();
+                    peredacha();
+                    outtake.release();
+                    follower.setMaxPower(0.6);
+                    follower.followPath(pick2);
+                    setPathState(3);
+                }
+            case 3:
+                if (!follower.isBusy()) {
+                    follower.holdPoint(P2);
+                    horlift.open();
+                    intake.setmidpovishe_take();
+                    sleep(700);
+                    taking();
+                    horlift.close();
+                    peredacha();
+                    outtake.release();
+                    follower.setMaxPower(1.0);
+                    follower.followPath(pick3);
+                    setPathState(4);
+                }
+            case 4:
+                if (!follower.isBusy()) {
+                    follower.holdPoint(P3);
+                    horlift.open();
+                    intake.setmidpovishe_take();
+                    intake.rotate_auto(90);
+                    sleep(700);
+                    taking();
+                    horlift.close();
+                    peredacha();
+                    outtake.release();
+                    follower.followPath(pick32);
+                    setPathState(-5);
+                }
+            case -5:
+                if (!follower.isBusy()) {
+                    follower.holdPoint(hp3);
+                    sleep(200);
+                    horlift.close();
+                    outtake.release();
+                    sleep(200);
+                    follower.followPath(taking2);
+                    setPathState(5);
                 }
             case 5:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if (!follower.isBusy()) {
+
                     follower.holdPoint(new Pose(take2.getX()-1, take2.getY(), take2.getHeading()));
                     sleep(300);
                     outtake.grab();
@@ -171,6 +261,7 @@ public class Specimen extends OpMode {
                     lift.set_target_position(100);
                     outtake.setautospec();
                     follower.followPath(scoring2);
+                    intake.setauto();
                     setPathState(6);
                 }
                 break;
@@ -309,16 +400,51 @@ public class Specimen extends OpMode {
         }
 
     }
+    public static double adder = 1, pixelstoinches = 0.018;
+    public Pose getsamplepose(Pose cur) {
+        return new Pose(cur.getX()-limelight.get_y_d(), cur.getY()+limelight.get_x_d()+adder, Math.toRadians(0));
+
+    }
+
+    Limelight limelight;
 
     public void setPathState(int pState) {
         pathState = pState;
         pathTimer.resetTimer();
+    }
+    public void taking () {
+        intake.setsample_take();
+        sleep(200);
+        intake.open();
+        intake.close();
+        sleep(200);
+        intake.setmidpovishe_take();
+        outtake.setPered_take();
+    }
+    public void peredacha() {
+        outtake.mayat_up();
+        intake.open_chut();
+        sleep(100);
+        intake.rotate_mid();
+        outtake.setPered_take();
+        intake.setperedacha();
+        sleep(100);
+        intake.close();
+        sleep(200);
+        outtake.mayat_up1();
+        outtake.grab();
+        sleep(300);
+        //lift.set_to_high_basket();
+        intake.setmidpovishe_take();
+        intake.open();
+        outtake.sethb();
     }
 
     @Override
     public void loop() {
 
         // These loop the movements of the robot
+        limelight.update_camera();
         follower.update();
         autonomousPathUpdate();
         lift.update_pid();
@@ -342,7 +468,7 @@ public class Specimen extends OpMode {
         telemetryA = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         intake.setperedacha();
         horlift.close();
-
+        outtake.grab();
         pathTimer = new Timer();
         opmodeTimer = new Timer();
         opmodeTimer.resetTimer();
@@ -351,9 +477,9 @@ public class Specimen extends OpMode {
         follower = new Follower(hardwareMap);
         follower.setStartingPose(startPose);
         buildPaths();
-        outtake.grab();
-        sleep(200);
-        outtake.set_auto_init();
+        limelight = new Limelight(hardwareMap, telemetry);
+        limelight.switch_pipeline(3);
+        limelight.start_camera();
     }
 
     @Override
@@ -375,6 +501,7 @@ public class Specimen extends OpMode {
         timersleep.reset();
         while(timersleep.milliseconds() <= mil) {
             follower.update();
+            limelight.update_camera();
         }
     }
 }

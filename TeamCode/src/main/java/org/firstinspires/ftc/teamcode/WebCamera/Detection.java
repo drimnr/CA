@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.TeamElementDetection;
+package org.firstinspires.ftc.teamcode.WebCamera;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.TeamElementDetection.Pipeline.OwnPipeline;
+import org.firstinspires.ftc.teamcode.WebCamera.Pipeline.OwnPipeline;
 import org.opencv.core.Scalar;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -66,12 +66,12 @@ public class Detection {
         this.yDist = yDist;
         this.heading = heading;
     }
-    public static Scalar lowerYellow = new Scalar(10, 150, 100);
+    public static Scalar lowerYellow = new Scalar(10, 100, 100);
     public static Scalar upperYellow = new Scalar(30, 255, 255);
-    public static Scalar lowerSecondary = new Scalar(90, 100, 80);  // Начальный цвет - синий
-    public static Scalar upperSecondary = new Scalar(130, 255, 220);
-    public static Scalar lowerSecondary2 = new Scalar(170, 100, 80);  // Начальный цвет - синий
-    public static Scalar upperSecondary2 = new Scalar(180, 255, 220);
+    public static Scalar lowerSecondary = new Scalar(85, 80, 80);  // Начальный цвет - синий
+    public static Scalar upperSecondary = new Scalar(140, 255, 220);
+    public static Scalar lowerSecondary2 = new Scalar(85, 80, 80);  // Начальный цвет - синий
+    public static Scalar upperSecondary2 = new Scalar(140, 255, 220);
 
     public static Boolean yellow = true;
     public static String col;
@@ -80,15 +80,15 @@ public class Detection {
         yellow = useyellow;
         switch (color.toLowerCase()) {
             case "blue":
-                lowerSecondary = new Scalar(90, 100, 80);
-                upperSecondary = new Scalar(130, 255, 220);
-                lowerSecondary2 = new Scalar(0, 0, 0);
-                upperSecondary2 = new Scalar(0, 0, 0);
+                lowerSecondary = new Scalar(85, 80, 80);
+                upperSecondary = new Scalar(140, 255, 220);
+                lowerSecondary2 = new Scalar(85, 80, 80);
+                upperSecondary2 = new Scalar(140, 255, 255);
                 break;
             case "red":
-                lowerSecondary = new Scalar(0, 100, 80);
+                lowerSecondary = new Scalar(0, 80, 80);
                 upperSecondary = new Scalar(10, 255, 220);
-                lowerSecondary2 = new Scalar(170, 100, 80);
+                lowerSecondary2 = new Scalar(170, 80, 80);
                 upperSecondary2 = new Scalar(180, 255, 220);
                 break;
             default:

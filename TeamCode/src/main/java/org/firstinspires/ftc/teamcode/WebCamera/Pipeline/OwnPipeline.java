@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.TeamElementDetection.Pipeline;
+package org.firstinspires.ftc.teamcode.WebCamera.Pipeline;
 
 import com.acmerobotics.dashboard.config.Config;
 
@@ -15,7 +15,7 @@ import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.TeamElementDetection.Detection;
+import org.firstinspires.ftc.teamcode.WebCamera.Detection;
 @Config
 public class OwnPipeline extends OpenCvPipeline {
     private Telemetry telemetry;

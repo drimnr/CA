@@ -28,7 +28,7 @@ public class Outtake {
             open = 0.0,
             close = 0.38,
             pered_take = 0.9,
-            zad_take = 0.57,
+            zad_take = 0.53,
             spec = 0.35,
             hb = 0.3;
 
@@ -74,7 +74,7 @@ public class Outtake {
         mayatr.setPosition(mayatr_up);
         mayatl.setPosition(mayatl_up);
     }
-    public static double mayat_auto_spec = 0.64, arm_auto_spec = 0.43;
+    public static double mayat_auto_spec = 0.7, arm_auto_spec = 0.43;
     public void setautospec() {
         outtake_arm.setPosition(arm_auto_spec);
         mayatr.setPosition(mayat_auto_spec);
@@ -106,6 +106,11 @@ public class Outtake {
         mayat_down();
         release();
     }
+    public void set_auto_init() {
+        outtake_arm.setPosition(0.8);
+        mayatr.setPosition(0.2);
+    }
+
     public void sethb() {
         outtake_arm.setPosition(hb);
         mayat_mid();

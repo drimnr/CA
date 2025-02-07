@@ -49,7 +49,7 @@ public class Intake {
         }
     }
 
-    public static double openchut = 0.59;
+    public static double openchut = 0.63;
 
     public void open_chut() {
         if (intakeInitialized) {
@@ -89,10 +89,10 @@ public class Intake {
         }
     }
 
-    public static double arm_up = 0.5;
-    public static double arm_mid = 0.2;
-    public static double arm_down = 0.08;
-    public static double wrist_down = 0.8, wrist_pered = 0.0, wrist_mid = 0.5;
+    public static double arm_up = 0.8;
+    public static double arm_mid = 0.5;
+    public static double arm_down = 0.4;
+    public static double wrist_down = 0.8, wrist_pered = 0.05, wrist_mid = 0.5, wrist_auto = 0.2;
 
     public void setmid_take() {
         arm.setPosition(arm_mid);
@@ -103,6 +103,10 @@ public class Intake {
     public void setmidpovishe_take() {
         arm.setPosition(arm_mid);
         wrist.setPosition(wrist_mid);
+    }
+    public void setauto() {
+        arm.setPosition(arm_up);
+        wrist.setPosition(wrist_auto);
     }
 
     public void setsample_take() {
@@ -119,7 +123,7 @@ public class Intake {
     public void auto_rotate() {
         rotate.setPosition(auto_rotate);
     }
-    public static double arm_vision = 0.4, wrist_vision = 0.07;
+    public static double arm_vision = 0.55, wrist_vision = 0.12;
     public void vision() {
         arm.setPosition(arm_vision);
         wrist.setPosition(wrist_vision);
