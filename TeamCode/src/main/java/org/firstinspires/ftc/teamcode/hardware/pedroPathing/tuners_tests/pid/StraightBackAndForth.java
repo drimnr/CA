@@ -35,7 +35,7 @@ import org.firstinspires.ftc.teamcode.hardware.pedroPathing.constants.LConstants
 public class StraightBackAndForth extends OpMode {
     private Telemetry telemetryA;
 
-    public static double DISTANCE = 40;
+    public static double DISTANCE = 72;
 
     private boolean forward = true;
 
@@ -87,7 +87,9 @@ public class StraightBackAndForth extends OpMode {
         telemetryA.addData("going forward", forward);
         follower.telemetryDebug(telemetryA);
         telemetryA.addData("Follower Constants Localizer", FollowerConstants.localizers);
-        telemetryA.addData("drive coeff", FollowerConstants.translationalPIDFCoefficients);
+        telemetryA.addData("translational coeff", FollowerConstants.translationalPIDFCoefficients);
+        telemetryA.addData("heading coeff", FollowerConstants.headingPIDFCoefficients);
+        telemetryA.addData("drive coeff", FollowerConstants.drivePIDFCoefficients);
         telemetryA.update();
     }
 }

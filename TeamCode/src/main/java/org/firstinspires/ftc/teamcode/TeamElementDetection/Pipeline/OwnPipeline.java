@@ -20,9 +20,9 @@ import org.firstinspires.ftc.teamcode.TeamElementDetection.Detection;
 public class OwnPipeline extends OpenCvPipeline {
     private Telemetry telemetry;
     private Detection detection;
-    public static double MIN_CONTOUR_AREA = 30000.0 / 4;
-    public static double MAX_CONTOUR_AREA = 110000.0 / 4;
-    public static double MAX_RECTANGLE_AREA = 30000.0;
+    public static double MIN_CONTOUR_AREA = 8000;
+    public static double MAX_CONTOUR_AREA = 20000;
+    public static double MAX_RECTANGLE_AREA = 20000;
 
     private Point cameraCenter = new Point(320, 180);
     private boolean detected = false;
@@ -34,12 +34,17 @@ public class OwnPipeline extends OpenCvPipeline {
 
     Point nearestCenter = new Point();
     double nearestAngle = 0;
+    double nearestW = 0;
+    double nearestH = 0;
     double minDistance = Double.MAX_VALUE;
 
     @Override
     public Mat processFrame(Mat input) {
+        Mat resizedInput = new Mat();
+        Imgproc.resize(input, resizedInput, new Size(640, 360));
+
         Mat darker = new Mat();
-        Core.convertScaleAbs(input, darker, 1, 0);
+        Core.convertScaleAbs(resizedInput, darker, 1, 0);
 
         Mat hsv = new Mat();
         Imgproc.cvtColor(darker, hsv, Imgproc.COLOR_RGB2HSV);
@@ -57,12 +62,16 @@ public class OwnPipeline extends OpenCvPipeline {
         Mat maskSecondary = new Mat();
         Core.inRange(hsv, detection.getLowerSecondary(), detection.getUpperSecondary(), maskSecondary);
         processContours(maskSecondary, darker);
+        Mat maskRed = new Mat();
+        Core.inRange(hsv, detection.getLowerSecondary2(), detection.getUpperSecondary2(), maskRed);
+        processContours(maskRed, darker);
 
         if (detected) {
             drawNearestLines(input, new Point(cameraCenter.x, cameraCenter.y), nearestCenter);
             Imgproc.circle(input, nearestCenter, 5, new Scalar(0, 255, 0), -1);
             annotateText(input, String.format("Nearest: %.2f, %.2f, %.2f", nearestCenter.x, nearestCenter.y, nearestAngle), new Point(nearestCenter.x - 40, nearestCenter.y - 40), new Scalar(0, 255, 0));
-
+            telemetry.addData("width", nearestW);
+            telemetry.addData("height", nearestH);
             telemetry.addData("x:", nearestCenter.x - (cameraCenter.x));
             telemetry.addData("y:", nearestCenter.y - (cameraCenter.y));
             telemetry.addData("Angle:", nearestAngle);
@@ -108,6 +117,8 @@ public class OwnPipeline extends OpenCvPipeline {
                 minDistance = distance;
                 nearestCenter = objectCenter;
                 nearestAngle = angle;
+                nearestW = rotatedRect.size.width;
+                nearestH = rotatedRect.size.height;
             }
 
             Imgproc.circle(input, objectCenter, 5, new Scalar(0, 255, 0), -1);

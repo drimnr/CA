@@ -17,7 +17,7 @@ public class Horizontal_Lift {
     private boolean horliftInitialized = false;
 
     public static double open = 0.6;
-    public static double close = 0.28;
+    public static double close = 0.3;
 
     public Horizontal_Lift(HardwareMap hardwareMap, Telemetry telemetry){
         this.telemetry = telemetry;
@@ -60,5 +60,8 @@ public class Horizontal_Lift {
     public void setpos(double pos) {
         l.setPosition(pos);
         r.setPosition(1-pos);
+    }
+    public double getpos() {
+        return l.getPosition();
     }
 }

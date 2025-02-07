@@ -1,9 +1,7 @@
 package org.firstinspires.ftc.teamcode.hardware.pedroPathing.constants;
 
-import com.pedropathing.localization.Localizers;
 import com.pedropathing.follower.FollowerConstants;
-import com.pedropathing.util.CustomFilteredPIDFCoefficients;
-import com.pedropathing.util.CustomPIDFCoefficients;
+import com.pedropathing.localization.Localizers;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class FConstants {
@@ -12,7 +10,7 @@ public class FConstants {
         FollowerConstants.localizers = Localizers.PINPOINT;
 
         // We can change the value of any variable/constant of FollowerConstants.
-        FollowerConstants.mass = 13; // In kg
+        FollowerConstants.mass = 14; // In kg
 
         FollowerConstants.leftFrontMotorName = "lfd";
         FollowerConstants.leftRearMotorName = "lbd";
@@ -30,13 +28,17 @@ public class FConstants {
         FollowerConstants.lateralZeroPowerAcceleration = -65;
 
 
-        FollowerConstants.translationalPIDFCoefficients.setCoefficients(0.09,0.0003,0.002,0);
+        FollowerConstants.translationalPIDFCoefficients.setCoefficients(0.15,0.0002,0.0005,0);
 
-        FollowerConstants.headingPIDFCoefficients.setCoefficients(1,0.0003,0.1,0);
+        FollowerConstants.headingPIDFCoefficients.setCoefficients(2.5,0.00004,0.01,0);
 
-        FollowerConstants.zeroPowerAccelerationMultiplier = 0.8;
+        FollowerConstants.zeroPowerAccelerationMultiplier = 4;
 
-        FollowerConstants.drivePIDFCoefficients.setCoefficients(0.013,-0.0008,0.00003,0.6,0);
+        FollowerConstants.drivePIDFCoefficients.setCoefficients(0.015,0.00001,0.00001,0.6,0);
         FollowerConstants.pathEndTimeoutConstraint = 50;
+        FollowerConstants.pathEndTValueConstraint = 0.995;
+        FollowerConstants.pathEndVelocityConstraint = 0.1;
+        FollowerConstants.pathEndTranslationalConstraint = 0.1;
+        FollowerConstants.pathEndHeadingConstraint = 0.007;
     }
 }

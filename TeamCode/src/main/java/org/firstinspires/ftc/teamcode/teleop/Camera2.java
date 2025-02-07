@@ -24,7 +24,7 @@ public class Camera2 extends LinearOpMode {
     public static double kp2 = 0, ki2 = 0, kd2 = 0;
     public static double ax = 0;
     public static double lx = 0;
-    public static double multiplier = 0.00049, adder = 110;
+    public static double multiplier = 0.27/(34/2.54), adder = 0.05, pixelstoinches = 0.018;
     @Override
     public void runOpMode() {
         pid = new PIDController(kp, ki, kd);
@@ -32,20 +32,16 @@ public class Camera2 extends LinearOpMode {
         detection = new Detection(hardwareMap, telemetry);
         intake = new Intake(hardwareMap, telemetry);
         hor_lift = new Horizontal_Lift(hardwareMap, telemetry);
-        hor_lift.close();
+        hor_lift.setpos(0.45);
         intake.vision();
         waitForStart();
 
-        double current_pose = 0.25;
+        double current_pose = 0.33;
 
 
         while (opModeIsActive()) {
-            if(gamepad1.a) continue;
-
-            if(detection.detected){
-                intake.rotate_auto(detection.getheading());
-                sleep(500);
-                hor_lift.setpos(current_pose-(detection.getYDist()+adder) * multiplier);
+            intake.rotate_auto(detection.getheading());
+            if(gamepad1.a){
                 intake.open();
                 intake.setsample_take();
                 sleep(800);
@@ -54,13 +50,9 @@ public class Camera2 extends LinearOpMode {
                 intake.vision();
                 sleep(1000);
             }
-            else {
-                if (current_pose < 0.68)
-                    current_pose += 0.086;
-                if (current_pose > 0.68) current_pose = 0.25;
-            }
-            hor_lift.setpos(current_pose);
-            sleep(500);
+            telemetry.addData("y", detection.getYDist()*pixelstoinches);
+            telemetry.addData("x", detection.getXDist()*pixelstoinches);
+            sleep(60);
         }
     }
 }

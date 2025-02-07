@@ -66,10 +66,12 @@ public class Detection {
         this.yDist = yDist;
         this.heading = heading;
     }
-    public static Scalar lowerYellow = new Scalar(10, 150, 180);
+    public static Scalar lowerYellow = new Scalar(10, 150, 100);
     public static Scalar upperYellow = new Scalar(30, 255, 255);
-    public static Scalar lowerSecondary = new Scalar(90, 50, 50);  // Начальный цвет - синий
-    public static Scalar upperSecondary = new Scalar(130, 255, 255);
+    public static Scalar lowerSecondary = new Scalar(90, 100, 80);  // Начальный цвет - синий
+    public static Scalar upperSecondary = new Scalar(130, 255, 220);
+    public static Scalar lowerSecondary2 = new Scalar(170, 100, 80);  // Начальный цвет - синий
+    public static Scalar upperSecondary2 = new Scalar(180, 255, 220);
 
     public static Boolean yellow = true;
     public static String col;
@@ -78,15 +80,18 @@ public class Detection {
         yellow = useyellow;
         switch (color.toLowerCase()) {
             case "blue":
-                lowerSecondary = new Scalar(90, 50, 50);
-                upperSecondary = new Scalar(130, 255, 255);
+                lowerSecondary = new Scalar(90, 100, 80);
+                upperSecondary = new Scalar(130, 255, 220);
+                lowerSecondary2 = new Scalar(0, 0, 0);
+                upperSecondary2 = new Scalar(0, 0, 0);
                 break;
             case "red":
-                lowerSecondary = new Scalar(0, 150, 150);
-                upperSecondary = new Scalar(10, 255, 255);
+                lowerSecondary = new Scalar(0, 100, 80);
+                upperSecondary = new Scalar(10, 255, 220);
+                lowerSecondary2 = new Scalar(170, 100, 80);
+                upperSecondary2 = new Scalar(180, 255, 220);
                 break;
             default:
-                System.out.println("Invalid color selected.");
                 break;
         }
     }
@@ -110,5 +115,12 @@ public class Detection {
 
     public Scalar getUpperSecondary() {
         return upperSecondary;
+    }
+    public Scalar getLowerSecondary2() {
+        return lowerSecondary2;
+    }
+
+    public Scalar getUpperSecondary2() {
+        return upperSecondary2;
     }
 }

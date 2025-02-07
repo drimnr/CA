@@ -18,19 +18,19 @@ public class Outtake {
     private boolean outtakeInitialized = false;
 
     public static double
-            mayatr_up = 0.25,
-            mayatr_up1 = 0.15,
-            mayatr_down = 1,
-            mayatr_mid = 0.56,
+            mayatr_up = 0.8,
+            mayatr_up1 = 0.85,
+            mayatr_down = 0.05,
+            mayatr_mid = 0.48,
             mayatl_up = 0.81,
             mayatl_down = 0.00,
             mayatl_mid = 0.45,
             open = 0.0,
             close = 0.38,
-            pered_take = 0.1,
-            zad_take = 0.35,
-            spec = 0.43,
-            hb = 0.65;
+            pered_take = 0.9,
+            zad_take = 0.57,
+            spec = 0.35,
+            hb = 0.3;
 
     public Outtake(HardwareMap hardwareMap, Telemetry telemetry){
         this.telemetry = telemetry;
@@ -65,7 +65,7 @@ public class Outtake {
     public void release() {
         outtake.setPosition(open);
     }
-    public static double mayat_spec = 0.28, arm_spec = 0.31;
+    public static double mayat_spec = 0.85, arm_spec = 0.31;
     public void mayat_specimen() {
         mayatr.setPosition(mayat_spec);
         mayatl.setPosition(arm_spec);

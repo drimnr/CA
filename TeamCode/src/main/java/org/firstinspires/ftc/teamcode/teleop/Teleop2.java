@@ -86,7 +86,7 @@ public class Teleop2 extends OpMode
             intake.setsample_take();
             intake.open();
         }
-        if (take && timer1.milliseconds() > 100) {
+        if (take && timer1.milliseconds() > 50) {
             intake.close();
         }
         if (take && timer1.milliseconds() > 200) {
